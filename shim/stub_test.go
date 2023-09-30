@@ -67,7 +67,7 @@ func TestNewChaincodeStub(t *testing.T) {
 		{signedProposal: proto.Clone(validSignedProposal).(*peerpb.SignedProposal)},
 		{
 			signedProposal: &peerpb.SignedProposal{ProposalBytes: []byte("garbage")},
-			expectedErr:    "failed to extract Proposal from SignedProposal: proto: cannot parse invalid wire-format data",
+			expectedErr:    "failed to extract Proposal from SignedProposal: proto:\u00a0cannot parse invalid wire-format data",
 		},
 		{
 			signedProposal: &peerpb.SignedProposal{},
@@ -221,11 +221,11 @@ func TestChaincodeStubGetTxTimestamp(t *testing.T) {
 					ChannelHeader: []byte("garbage-channel-header"),
 				}),
 			},
-			expectedErr: "error unmarshaling ChannelHeader: proto: cannot parse invalid wire-format data",
+			expectedErr: "error unmarshaling ChannelHeader: proto:\u00a0cannot parse invalid wire-format data",
 		},
 		{
 			proposal:    &peerpb.Proposal{Header: []byte("garbage-header")},
-			expectedErr: "error unmarshaling Header: proto: cannot parse invalid wire-format data",
+			expectedErr: "error unmarshaling Header: proto:\u00a0cannot parse invalid wire-format data",
 		},
 	}
 
@@ -584,7 +584,7 @@ func TestChaincodeStubHandlers(t *testing.T) {
 
 			handler := &Handler{
 				cc:               &mockChaincode{},
-				responseChannels: map[string]chan peerpb.ChaincodeMessage{},
+				responseChannels: map[string]chan *peerpb.ChaincodeMessage{},
 				state:            ready,
 			}
 			stub := &ChaincodeStub{
